@@ -14,6 +14,8 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
+import static businesslogic.event.ServiceInfo.loadServiceInfoForEvent;
+
 
 public class testArray {
     public static void main(String[] args) throws UseCaseLogicException {
@@ -26,35 +28,37 @@ public class testArray {
 
         System.out.println("\nTEST GET EVENT INFO");
         ObservableList<EventInfo> events = CatERing.getInstance().getEventManager().getEventInfo();
-        for (EventInfo e: events) {
+        for (EventInfo e : events) {
             System.out.println(e);
-            for (ServiceInfo s: e.getServices()) {
+            for (ServiceInfo s : e.getServices()) {
                 System.out.println("\t" + s);
             }
         }
         System.out.println("");
+        System.out.println("\nTEST GET SERVICE INFO");
+        ObservableList<ServiceInfo> services = CatERing.getInstance().getEventManager().getServiceInfo();
+        for (ServiceInfo s : services) {
+            System.out.println(s);
 
 
-
-        instance.getTaskManager().createSheet(events.get(1));
-        //instance.getTaskManager().sortTask("esteem");
-        KitchenShift kc = new KitchenShift(9, 10, instance.getUserManager().fakeLogin("Marco"));
-        KitchenShift kc1 = new KitchenShift(11, 12, instance.getUserManager().fakeLogin("Giorgio"));
-        KitchenShift kc2 = new KitchenShift(13, 14, instance.getUserManager().fakeLogin("Federico"));
-        instance.getTaskManager().addKitchenShift(kc);
-        instance.getTaskManager().addKitchenShift(kc1);
-        instance.getTaskManager().addKitchenShift(kc2);
-        instance.getTaskManager().setTask(kc, instance.getUserManager().fakeLogin("Marco"), 5, 7);
-        instance.getTaskManager().setTask(kc1, instance.getUserManager().fakeLogin("Giorgio"), 4, 8);
-        instance.getTaskManager().setTask(kc2, instance.getUserManager().fakeLogin("Federico"), 2, 6);
-        instance.getTaskManager().modifyDoses(50, instance.getTaskManager().getTask(1));
-        instance.getTaskManager().checkShiftsBoard();
-        System.out.println("Stampa Turni\n");
-        System.out.println(instance.getTaskManager().toStringKS());
-        System.out.println("ciao");
-
+            instance.getTaskManager().createSheet(events.get(2), services.get(2));
+            instance.getTaskManager().sortTask("esteem");
+            KitchenShift kc = new KitchenShift(9, 10, instance.getUserManager().fakeLogin("Marco"));
+            KitchenShift kc1 = new KitchenShift(11, 12, instance.getUserManager().fakeLogin("Giorgio"));
+            KitchenShift kc2 = new KitchenShift(13, 14, instance.getUserManager().fakeLogin("Federico"));
+            instance.getTaskManager().addKitchenShift(kc);
+            instance.getTaskManager().addKitchenShift(kc1);
+            instance.getTaskManager().addKitchenShift(kc2);
+            instance.getTaskManager().setTask(kc, instance.getUserManager().fakeLogin("Marco"), 5, 7);
+            instance.getTaskManager().setTask(kc1, instance.getUserManager().fakeLogin("Giorgio"), 4, 8);
+            instance.getTaskManager().setTask(kc2, instance.getUserManager().fakeLogin("Federico"), 2, 6);
+            instance.getTaskManager().modifyDoses(50, instance.getTaskManager().getTask(1));
+            instance.getTaskManager().checkShiftsBoard();
+            System.out.println("Stampa Turni\n");
+            System.out.println(instance.getTaskManager().toStringKS());
+            System.out.println("ciao");
 
 
-
+        }
     }
 }

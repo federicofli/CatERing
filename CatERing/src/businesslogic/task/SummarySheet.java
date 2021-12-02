@@ -1,7 +1,9 @@
 package businesslogic.task;
 
 import businesslogic.event.EventInfo;
+import businesslogic.event.ServiceInfo;
 import businesslogic.shift.KitchenShift;
+import businesslogic.shift.ServiceShift;
 import businesslogic.user.User;
 
 import java.sql.Time;
@@ -15,17 +17,18 @@ public class SummarySheet {
     private User owner;
     private EventInfo event;
     private ArrayList<Task> tasklist;
-    private ArrayList<KitchenShift> kitchenShiftsList;
+    private ServiceInfo service;
 
-    public SummarySheet(EventInfo event, User owner) {
+
+    public SummarySheet(EventInfo event, User owner, ServiceInfo service) {
         this.event = event;
         this.owner = owner;
-        this.tasklist = new ArrayList<Task>();
-        this.kitchenShiftsList = new ArrayList<KitchenShift>();
+        this.service = service;
+        this.tasklist = new ArrayList<>();
     }
 
     public void addTask(Task task) {
-        tasklist.add(task);
+        this.tasklist.add(task);
     }
 
     public void sortEsteem() {

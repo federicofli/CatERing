@@ -1,5 +1,7 @@
 package businesslogic.event;
 
+import businesslogic.menu.Menu;
+import businesslogic.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import persistence.PersistenceManager;
@@ -17,6 +19,9 @@ public class ServiceInfo implements EventItemInfo {
     private Time timeStart;
     private Time timeEnd;
     private int participants;
+    private Menu approvedMenu;
+    private int event_id;
+
 
     public ServiceInfo(String name) {
         this.name = name;
@@ -28,6 +33,10 @@ public class ServiceInfo implements EventItemInfo {
     }
 
     // STATIC METHODS FOR PERSISTENCE
+
+    public Menu getApprovedMenu()       { return this.approvedMenu; }
+    public void setApprovedMenu(Menu m) { this.approvedMenu = m; }
+
 
     public static ObservableList<ServiceInfo> loadServiceInfoForEvent(int event_id) {
         ObservableList<ServiceInfo> result = FXCollections.observableArrayList();
@@ -49,4 +58,22 @@ public class ServiceInfo implements EventItemInfo {
 
         return result;
     }
+
+    public static ObservableList<ServiceInfo> loadAllServiceInfo() {
+        ObservableList<ServiceInfo> all = FXCollections.observableArrayList();
+        String query = "SELECT * FROM Services";
+        PersistenceManager.executeQuery(query, new ResultHandler() {
+            @Override
+            public void handle(ResultSet rs) throws SQLException {
+                String n = rs.getString("name");
+                ServiceInfo s = new ServiceInfo(n);
+                s.id = rs.getInt("id");
+                s.event_id = rs.getInt("event_id");
+                all.add(s);
+            }
+        });
+
+        return all;
+    }
 }
+

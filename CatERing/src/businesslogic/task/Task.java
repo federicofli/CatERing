@@ -1,6 +1,7 @@
 package businesslogic.task;
 
 import businesslogic.event.EventInfo;
+import businesslogic.recipe.Recipe;
 import businesslogic.shift.Shift;
 import businesslogic.user.User;
 
@@ -11,6 +12,7 @@ public class Task {
     private User cook;
     private int doses;
     private boolean ready;
+    private Recipe recipe;
 
     public Task(Shift shift, User cook, int esteem, int doses) {
         this.shift = shift;
@@ -26,8 +28,12 @@ public class Task {
         this.esteem = Integer.parseInt(null);
         this.doses = Integer.parseInt(null);
         this.ready = false;
-
     }
+
+    public Task(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
 
     public Task(Shift shift, int esteem, int doses) {
         this.shift = shift;

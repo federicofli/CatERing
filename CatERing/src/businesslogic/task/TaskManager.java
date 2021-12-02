@@ -3,6 +3,9 @@ package businesslogic.task;
 import businesslogic.CatERing;
 import businesslogic.UseCaseLogicException;
 import businesslogic.event.EventInfo;
+import businesslogic.event.ServiceInfo;
+import businesslogic.menu.MenuItem;
+import businesslogic.menu.Section;
 import businesslogic.shift.KitchenShift;
 import businesslogic.shift.Shift;
 import businesslogic.user.User;
@@ -23,12 +26,22 @@ public class TaskManager {
         this.kitchenShiftsList = new ArrayList<KitchenShift>();
     }
 
-    public SummarySheet createSheet(EventInfo event) throws UseCaseLogicException {
+    public SummarySheet createSheet(EventInfo event, ServiceInfo service) throws UseCaseLogicException {
         User user = CatERing.getInstance().getUserManager().getCurrentUser();
         if(!user.isChef()) {
             throw new UseCaseLogicException();
         }
-        SummarySheet fr = new SummarySheet(event, user);
+        SummarySheet fr = new SummarySheet(event, user, service);
+
+        for (Section sec : service.getApprovedMenu().getSections()) {
+            for (MenuItem item : sec.getItems()) {
+                fr.addTask(new Task(item.getItemRecipe()));
+            }
+        }
+        for (MenuItem item : service.getApprovedMenu().getFreeItems()) {
+            fr.addTask(new Task(item.getItemRecipe()));
+        }
+
         this.setCurrentSheet(fr);
         this.notifySheetAdded(fr);
         return fr;
